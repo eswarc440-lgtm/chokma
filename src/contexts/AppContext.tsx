@@ -51,11 +51,13 @@ import { calculateJobMatch, calculateProfileCompleteness } from '../utils/matchi
 import { clampNumber, makeSafeId, sanitizeStr } from '../lib/utils';
 import { canAccessWorkspace, resolveAuthIdentifier } from '../lib/authIdentifier';
 import {
+  localDemoLogin,
   localLoginAccount,
   localLogoutAccount,
   localRegisterAccount,
   LocalAuthUser,
 } from '../lib/localAuthSession';
+import { buildDemoWorkspace, DemoPersonaId } from '../data/demoPersonas';
 import { generateRoadmapWithAgent, sendAssistantMessage } from '../services/api';
 
 const ADMIN_EMAIL = 'santhoshosanthosho19@gmail.com';
@@ -84,6 +86,7 @@ interface AppContextValue {
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   registerWithEmail: (name: string, email: string, pass: string) => Promise<void>;
+  signInAsDemoPersona: (personaId: DemoPersonaId) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   resendVerificationEmail: () => Promise<void>;
   refreshUserAuth: () => Promise<boolean>;
@@ -547,6 +550,33 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     } catch {
       toast.success('Account created! Please verify your email address.');
     }
+  };
+
+  const signInAsDemoPersona = async (personaId: DemoPersonaId) => {
+    const res = await localDemoLogin(personaId);
+    const seed = buildDemoWorkspace(personaId, res.user.uid, res.user.email);
+    const syntheticUser = {
+      uid: res.user.uid,
+      email: res.user.email,
+      displayName: res.user.displayName,
+      emailVerified: true,
+    } as unknown as User;
+    setIsLocalSession(true);
+    isLocalSessionRef.current = true;
+    setUser(syntheticUser);
+    setProfile(seed.profile);
+    setSkills(seed.skills);
+    setSelectedJobs(seed.selectedJobs);
+    setRoadmapItems(seed.roadmapItems);
+    setCourses(seed.courses);
+    setDailyTasks(seed.dailyTasks);
+    setPracticalProjects(seed.practicalProjects);
+    setAssessments([]);
+    setApplications(seed.applications);
+    setConversations([]);
+    setLocalMessagesByConv({});
+    setAuthLoading(false);
+    toast.success(`Signed in as demo user ${res.user.displayName}`);
   };
 
   const resetPassword = async (identifier: string) => {
@@ -2004,6 +2034,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         signInWithGoogle,
         signInWithEmail,
         registerWithEmail,
+        signInAsDemoPersona,
         resetPassword,
         resendVerificationEmail,
         refreshUserAuth,

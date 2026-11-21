@@ -664,6 +664,65 @@ async function startServer() {
     res.json({ ok: true });
   });
 
+  // Passwordless 1-click Demo Personas (strict allowlist, zero hardcoded passwords)
+  const DEMO_PERSONA_CATALOG: Record<
+    string,
+    { id: 'cloud' | 'fullstack' | 'data'; uid: string; username: string; displayName: string; email: string }
+  > = {
+    cloud: {
+      id: 'cloud',
+      uid: 'demo_usr_cloud',
+      username: 'alex_cloud',
+      displayName: 'Alex Rivera',
+      email: 'alex_cloud@users.chokma.app',
+    },
+    fullstack: {
+      id: 'fullstack',
+      uid: 'demo_usr_fullstack',
+      username: 'priya_fullstack',
+      displayName: 'Priya Nair',
+      email: 'priya_fullstack@users.chokma.app',
+    },
+    data: {
+      id: 'data',
+      uid: 'demo_usr_data',
+      username: 'rohan_data',
+      displayName: 'Rohan Verma',
+      email: 'rohan_data@users.chokma.app',
+    },
+  };
+
+  app.post('/api/auth/demo', rateLimit(30, 60_000), (req: Request, res: Response) => {
+    const personaId = typeof req.body?.personaId === 'string' ? req.body.personaId.trim() : '';
+    const persona = DEMO_PERSONA_CATALOG[personaId];
+    if (!persona) {
+      res.status(400).json({ error: 'Unknown demo persona selected.' });
+      return;
+    }
+
+    const token = issueLocalSessionToken({
+      uid: persona.uid,
+      username: persona.username,
+      usernameLower: persona.username.toLowerCase(),
+      displayName: persona.displayName,
+      email: persona.email,
+      salt: '',
+      passwordHash: '',
+      createdAt: new Date().toISOString(),
+    });
+
+    res.json({
+      token,
+      user: {
+        uid: persona.uid,
+        username: persona.username,
+        displayName: persona.displayName,
+        email: persona.email,
+        personaId: persona.id,
+      },
+    });
+  });
+
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'chokma-careerpilot-api' });
   });

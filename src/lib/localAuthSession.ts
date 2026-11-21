@@ -75,6 +75,23 @@ export async function localLoginAccount(payload: {
   return data;
 }
 
+export async function localDemoLogin(personaId: 'cloud' | 'fullstack' | 'data'): Promise<{
+  token: string;
+  user: LocalAuthUser & { personaId: 'cloud' | 'fullstack' | 'data' };
+}> {
+  const res = await fetch('/api/auth/demo', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ personaId }),
+  });
+  const data = await parseAuthResponse<{
+    token: string;
+    user: LocalAuthUser & { personaId: 'cloud' | 'fullstack' | 'data' };
+  }>(res);
+  setLocalSessionToken(data.token);
+  return data;
+}
+
 export async function localLogoutAccount(): Promise<void> {
   const token = inMemorySessionToken;
   setLocalSessionToken(null);

@@ -8,18 +8,20 @@ import {
   Moon,
   ShieldCheck,
   Sun,
+  UserCheck,
   UserPlus,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../contexts/AppContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { DEMO_PERSONAS, DemoPersonaId } from '../data/demoPersonas';
 import { Button, FieldLabel, Input, SegmentedTabs } from '../components/ui/Primitives';
 
 const FIREBASE_PROVIDERS_URL =
   'https://console.firebase.google.com/project/gen-lang-client-0125498620/authentication/providers';
 
 export function AuthPage() {
-  const { signInWithGoogle, signInWithEmail, registerWithEmail, resetPassword } = useApp();
+  const { signInWithGoogle, signInWithEmail, registerWithEmail, signInAsDemoPersona, resetPassword } = useApp();
   const { theme, toggleTheme } = useTheme();
   const [mode, setMode] = useState<'signin' | 'register' | 'reset'>('register');
   const [displayName, setDisplayName] = useState('');
@@ -27,8 +29,26 @@ export function AuthPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [busyPersona, setBusyPersona] = useState<DemoPersonaId | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [needsConsoleEnable, setNeedsConsoleEnable] = useState(false);
+
+  const handleDemoLogin = async (personaId: DemoPersonaId) => {
+    setBusy(true);
+    setBusyPersona(personaId);
+    setErrorMsg('');
+    setNeedsConsoleEnable(false);
+    try {
+      await signInAsDemoPersona(personaId);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Demo sign-in failed.';
+      setErrorMsg(msg);
+      toast.error(msg);
+    } finally {
+      setBusy(false);
+      setBusyPersona(null);
+    }
+  };
 
   const handleGoogle = async () => {
     setBusy(true);
@@ -321,13 +341,48 @@ export function AuthPage() {
             <div className="relative flex items-center py-1">
               <div className="flex-1 border-t border-slate-200 dark:border-slate-800" />
               <span className="px-3 text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                or
+                Instant Demo Users (1-Click)
               </span>
               <div className="flex-1 border-t border-slate-200 dark:border-slate-800" />
             </div>
 
-            {/* Instant Google Sign-In */}
+            {/* 1-Click Passwordless Demo Personas */}
             <div className="space-y-2">
+              {DEMO_PERSONAS.map((persona) => {
+                const isLoadingThis = busyPersona === persona.id;
+                return (
+                  <button
+                    key={persona.id}
+                    type="button"
+                    disabled={busy}
+                    onClick={() => handleDemoLogin(persona.id)}
+                    className="w-full text-left px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/30 transition-colors flex items-center justify-between gap-3 disabled:opacity-60 cursor-pointer"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <UserCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                        <span className="text-xs font-semibold text-slate-900 dark:text-slate-100 truncate">
+                          {persona.displayName}
+                        </span>
+                        <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">
+                          @{persona.username}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5 pl-5.5">
+                        {persona.roleLabel} · {persona.summary}
+                      </p>
+                    </div>
+                    <span className="text-[11px] font-medium text-indigo-700 dark:text-indigo-400 shrink-0 inline-flex items-center gap-1">
+                      {isLoadingThis ? 'Entering...' : 'Try'}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Instant Google Sign-In */}
+            <div className="space-y-2 pt-1">
               <Button
                 variant="outline"
                 size="lg"
