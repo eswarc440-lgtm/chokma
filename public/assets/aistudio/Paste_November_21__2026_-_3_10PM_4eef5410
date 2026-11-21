@@ -1,0 +1,1312 @@
+# MASTER PROJECT PROMPT: CAREERPILOT
+## AI-Powered Career Development, Job Intelligence & Learning Platform
+
+Act as a senior full-stack software architect, UI/UX designer, AI agent engineer, Firebase developer, DevOps engineer, and technical project manager.
+
+Your responsibility is to design and build a complete, functional, production-structured web application named **CareerPilot**.
+
+Do not build only a landing page, static prototype, or UI demonstration. Build a working end-to-end application with real authentication, persistent database storage, AI agent workflows, job matching, learning management, progress tracking, and a unified AI career assistant.
+
+Follow every requirement below. Do not silently remove, simplify, or replace any core feature.
+
+---
+
+# 1. PROJECT VISION
+
+CareerPilot is an AI-powered career development platform for college students, B.Tech students, freshers, and job seekers.
+
+The purpose is to help students move from their current academic and technical profile toward their desired career.
+
+The platform must connect three major areas:
+
+1. Profile Intelligence
+2. Job Intelligence
+3. Learning & Outcomes
+
+A central AI Career Assistant coordinates five specialist AI agents.
+
+The complete user journey:
+
+Student registers → Completes profile → Uploads resume → Adds GitHub and portfolio → AI analyzes profile → Finds suitable jobs → Compares job requirements → Student selects a target job → AI identifies skill gaps → Generates personalized learning roadmap → Student completes courses and tasks → Completes assessments and projects → AI updates skill evidence → Job matching is recalculated → Student applies through the official employer application page → Tracks application progress.
+
+The platform should continuously connect profile information, target jobs, skill gaps, learning activities, and outcomes.
+
+# 2. TECHNOLOGY STACK
+
+Use the following architecture.
+
+## Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Lucide icons
+- React Router
+- React Query or an equivalent server-state library
+
+## Backend
+- Python
+- FastAPI
+- Pydantic
+- REST APIs
+
+## AI and agents
+- Gemini API
+- Google Agent Development Kit (ADK)
+- One central orchestrator
+- Five specialist agents
+
+## Database and authentication
+Use Firebase as the database and authentication platform.
+
+- Firebase Authentication for registration and login.
+- Cloud Firestore for application data.
+- Firebase Storage for resumes, certificates, and evidence files.
+- Firebase Admin SDK for trusted backend operations.
+- Firestore Security Rules for user data protection.
+
+Do not use Supabase or PostgreSQL as the main database.
+
+## Deployment
+- Frontend: Vercel
+- Backend: Google Cloud Run
+- Database: Firebase
+- Source control: GitHub
+- AI: Gemini API
+
+Keep all API keys and service account credentials on the backend. Never expose private keys in frontend code or GitHub.
+
+# 3. COMPLETE WEBSITE STRUCTURE
+
+Create the following main navigation.
+
+1. Dashboard
+2. Profile
+3. Job Intelligence
+   - Recommended Jobs
+   - My Selected Jobs
+   - Job Details
+   - Applications
+4. Learning & Outcomes
+   - My Roadmap
+   - Recommended Courses
+   - In Progress
+   - Completed Courses
+   - Daily Tasks
+   - Practical Projects
+   - Assessments
+   - Outcomes
+5. AI Career Assistant
+6. Settings
+
+Use a persistent sidebar and a responsive top navigation bar.
+
+The AI assistant must be accessible from every major page.
+
+# 4. AUTHENTICATION AND USER MANAGEMENT
+
+Implement working Firebase Authentication.
+
+Required features:
+
+- User registration
+- Email and password login
+- Google sign-in
+- Forgot password
+- Password reset
+- Logout
+- Session persistence
+- Protected routes
+- User profile initialization
+- Account settings
+
+After registration, create a user-specific Firestore profile.
+
+Each student must only access their own private information.
+
+Use Firebase Security Rules to enforce access control.
+
+Do not rely only on frontend route protection.
+
+The backend must verify Firebase ID tokens for protected API requests.
+
+Support user roles:
+- Student
+- Administrator
+- Employer (future-ready role)
+
+# 5. PROFILE INTELLIGENCE MODULE
+
+Create a comprehensive candidate profile.
+
+## Profile information
+
+- Full name
+- Email
+- Phone number
+- College
+- University
+- Degree
+- Department
+- Graduation year
+- CGPA or percentage
+- Current academic year
+- Location
+- Career objective
+
+## Resume management
+
+Allow PDF and DOCX uploads.
+
+Implement:
+- Resume upload
+- Resume parsing
+- Extracted information
+- Extracted skills
+- Education extraction
+- Experience extraction
+- Project extraction
+- Certification extraction
+- Resume preview
+- Resume download
+- Resume version management
+- Manual correction of extracted information
+
+Use PyMuPDF for PDF parsing and python-docx for DOCX parsing.
+
+Do not treat every extracted resume keyword as verified proficiency.
+
+## External profile connections
+
+Allow students to add:
+
+- Portfolio website
+- LinkedIn profile
+- GitHub profile
+- Credly profile
+- LeetCode profile
+- HackerRank profile
+
+GitHub integration should use the GitHub API to retrieve authorized public profile and repository information.
+
+Analyze:
+- Repository names
+- Descriptions
+- Programming languages
+- README content
+- Commit activity where available
+- Project relevance
+
+Do not claim to verify private profiles without authorized access.
+
+## Candidate skills
+
+Each skill must include:
+
+- Skill name
+- Category
+- Proficiency level
+- Evidence source
+- Verification status
+- Last updated date
+
+Use four evidence statuses:
+
+- Matched
+- Partial
+- Missing
+- Unverified
+
+Distinguish user-claimed skills from skills supported by practical evidence or assessments.
+
+## Career preferences
+
+Allow users to configure:
+
+- Preferred companies
+- Preferred job roles
+- Preferred locations
+- Preferred countries
+- Internship or full-time
+- Remote, hybrid, or office
+- Minimum salary (optional)
+- Experience level
+- Preferred industries
+- Daily learning time
+
+Allow users to edit these preferences whenever required.
+
+# 6. JOB INTELLIGENCE MODULE
+
+This is one of the most important features.
+
+Create two separate job dashboards.
+
+## A. Recommended Jobs
+
+Display jobs that match the candidate profile.
+
+Each job card must contain:
+
+- Job title
+- Company name
+- Company logo when available
+- Location
+- Job type
+- Experience requirements
+- Required qualifications
+- Required skills
+- Matched skills
+- Missing skills
+- Partial skills
+- Unverified skills
+- Job match percentage
+- Job description summary
+- Salary where available
+- Posting date
+- Application deadline where available
+- Official application URL
+- Job source
+- Last verified date
+
+Provide filters:
+
+- Company
+- Role
+- Location
+- Internship/full-time
+- Remote/hybrid/office
+- Experience
+- Skill
+- Match percentage
+
+Sort jobs by relevance, eligibility, and recency.
+
+Do not show expired vacancies as active.
+
+## B. My Selected Jobs
+
+When the student clicks "Select Job", save it to a separate selected-job dashboard.
+
+Each selected job must maintain its own:
+
+- Job description
+- Required skills
+- Eligibility requirements
+- Candidate comparison
+- Skill gaps
+- Learning roadmap
+- Learning progress
+- Application status
+
+Selecting a job must not modify or fabricate the original candidate profile.
+
+A student must be able to select multiple target jobs and track their roadmaps independently.
+
+## Job data sources
+
+Collect job information through:
+
+1. Public company career pages where access is permitted.
+2. Authorized job APIs.
+3. Authorized job feeds.
+4. Employer partnerships and integrations.
+5. Administrator-managed verified job listings.
+
+Do not assume private company hiring information is available.
+
+Do not bypass authentication, access restrictions, or website terms.
+
+Create a modular job-source integration architecture.
+
+Each job record should store its source, original URL, date collected, last verified date, and status.
+
+Deduplicate jobs using employer, title, location, and original posting identifier where available.
+
+Support manual administrator verification.
+
+## Company preferences
+
+Support companies such as:
+
+- Amazon
+- Google
+- Microsoft
+- IBM
+- Deloitte
+- PayPal
+- HCLTech
+- Infosys
+- Wipro
+- TCS
+- Accenture
+- Other suitable employers
+
+These are examples of user preferences, not guaranteed vacancy sources.
+
+Show preferred companies first, but also recommend suitable jobs from other employers.
+
+## Job matching algorithm
+
+Implement an explainable matching system.
+
+First evaluate mandatory eligibility requirements.
+
+Then calculate the weighted match score using evidence-backed information.
+
+Initial configurable weights:
+
+- Technical skills: 40%
+- Project relevance: 20%
+- Education: 15%
+- Experience: 15%
+- Certifications: 10%
+
+Normalize skill proficiency using evidence:
+
+- No evidence: 0
+- Basic understanding: 0.4
+- Practical beginner: 0.6
+- Independently demonstrated: 0.8
+- Strong verified proficiency: 1.0
+
+Use requirement importance weights for individual skills.
+
+Unknown information must remain unverified.
+
+Do not automatically treat missing information as a failed requirement unless the requirement is mandatory.
+
+Clearly communicate that the match percentage is not a hiring or selection probability.
+
+Allow administrators to configure scoring weights.
+
+# 7. JOB DETAILS PAGE
+
+Create six tabs for every job.
+
+1. Job Overview
+2. Required Skills
+3. Skill Matching
+4. Learning Roadmap
+5. Application Guide
+6. Ask AI
+
+Include responsibilities, qualifications, preferred skills, eligibility, application steps, and the original employer posting.
+
+Use Cloud Support Associate as an example role for initial demonstration.
+
+Example responsibilities:
+
+- Monitor cloud infrastructure
+- Troubleshoot EC2 and virtual machines
+- Diagnose networking problems
+- Manage cloud storage and permissions
+- Investigate deployment failures
+- Monitor logs, metrics, and alerts
+- Document incidents
+- Support customers and internal teams
+
+Example required skills:
+
+- Linux
+- Windows fundamentals
+- TCP/IP
+- DNS
+- HTTP
+- SSH
+- AWS fundamentals
+- EC2
+- S3
+- IAM
+- CloudWatch
+- Python or Bash
+- SQL fundamentals
+- Communication
+
+The actual employer job description must take priority over this generic example.
+
+# 8. LEARNING & OUTCOMES MODULE
+
+This module must be generated from the selected job's skill gaps.
+
+Do not give unrelated generic courses.
+
+## A. My Roadmap
+
+Generate a personalized learning roadmap.
+
+Include:
+
+- Target job
+- Required skills
+- Current proficiency
+- Missing skills
+- Priority
+- Learning duration
+- Courses
+- Practical tasks
+- Assessments
+- Projects
+- Expected outcomes
+
+## B. Recommended Courses
+
+Integrate or link to trusted learning resources such as:
+
+- AWS Skill Builder
+- Google Cloud Skills Boost
+- Microsoft Learn
+- Cisco Networking Academy
+- Coursera
+- edX
+- NPTEL
+- freeCodeCamp
+- Official vendor documentation
+
+Use official links wherever possible.
+
+Clearly distinguish free, paid, and trial resources where this information is verified.
+
+Do not falsely claim that a student is enrolled or that a course has been completed.
+
+## C. Course statuses
+
+Support:
+
+- Not Started
+- In Progress
+- Completed
+- Assessment Pending
+- Verified
+
+When a student starts a course, update its status to In Progress.
+
+When completed, allow evidence or a completion certificate to be uploaded.
+
+Completion alone must not automatically mark a skill as mastered.
+
+## D. Daily Tasks
+
+Generate personalized daily tasks.
+
+Examples:
+
+- Learn AWS IAM fundamentals.
+- Create an IAM user and role.
+- Configure an S3 bucket.
+- Create CloudWatch alarms.
+- Practice Linux commands.
+- Troubleshoot DNS.
+- Deploy a small application on EC2.
+
+Each task must contain:
+
+- Title
+- Description
+- Target skill
+- Estimated duration
+- Priority
+- Instructions
+- Learning resources
+- Completion status
+- Evidence submission
+
+## E. Practical Projects
+
+Generate hands-on projects related to the target job.
+
+Allow students to:
+- Start a project
+- View instructions
+- Upload evidence
+- Add GitHub repository URL
+- Submit screenshots or reports
+- Request AI review
+- Track completion
+
+## F. Assessments
+
+Generate quizzes and practical assessments.
+
+Include:
+- Multiple-choice questions
+- Technical questions
+- Scenario-based questions
+- Practical assignments
+- Results
+- Explanations
+- Skill proficiency updates
+
+Do not mark a skill as verified solely because a course was opened or a task checkbox was selected.
+
+## G. Outcomes
+
+Display:
+
+- Completed courses
+- Completed tasks
+- Completed projects
+- Assessment scores
+- Verified skills
+- Updated proficiency
+- Roadmap completion
+- Job-specific readiness
+
+Keep different scores separate:
+
+1. Profile completeness
+2. Job match
+3. Skill proficiency
+4. Learning progress
+
+Never describe these metrics as placement probability.
+
+# 9. FIVE SPECIALIST AI AGENTS
+
+Use Google ADK with Gemini.
+
+Build one central orchestrator and five specialist agents.
+
+## Agent 1: Profile Intelligence Agent
+
+Responsibilities:
+- Resume parsing
+- Candidate profile extraction
+- GitHub analysis
+- Portfolio information
+- Credential information
+- Skill extraction
+- Evidence classification
+- Profile completeness
+
+Tools:
+- Resume parser
+- GitHub API
+- Firebase profile service
+- Document extraction
+
+## Agent 2: Job Intelligence Agent
+
+Responsibilities:
+- Job discovery
+- Job description parsing
+- Job eligibility analysis
+- Job recommendation
+- Job deduplication
+- Job updates
+- Job-source validation
+
+Tools:
+- Authorized job APIs
+- Public job-source connectors
+- Firebase job repository
+- Job parser
+
+## Agent 3: Skill Gap Analyst
+
+Responsibilities:
+- Compare candidate profile with target job.
+- Identify matched skills.
+- Identify partial skills.
+- Identify missing skills.
+- Identify unverified skills.
+- Calculate explainable match score.
+- Prioritize gaps.
+
+Tools:
+- Skill taxonomy
+- Evidence engine
+- Matching algorithm
+- Firebase profile and job data
+
+## Agent 4: Learning Planner Agent
+
+Responsibilities:
+- Generate roadmaps.
+- Recommend courses.
+- Generate daily tasks.
+- Generate practical projects.
+- Create assessments.
+- Prioritize learning based on target jobs.
+
+Tools:
+- Course catalog
+- Learning resource database
+- Gemini
+- Firebase learning repository
+
+## Agent 5: Progress & Outcomes Agent
+
+Responsibilities:
+- Track learning progress.
+- Verify task evidence.
+- Evaluate assessments.
+- Review project evidence.
+- Update proficiency.
+- Recalculate skill gaps.
+- Update readiness and outcomes.
+
+Tools:
+- Assessment engine
+- Evidence verification
+- Firebase progress repository
+
+## Central Orchestrator
+
+The central orchestrator must:
+
+- Receive user requests.
+- Identify the required operation.
+- Retrieve authorized user context.
+- Delegate work to the appropriate agent.
+- Pass structured data between agents.
+- Save results.
+- Return a unified response.
+
+Do not let agents independently invent user records or modify unrelated user information.
+
+Use structured JSON schemas and validated tool outputs for agent communication.
+
+# 10. GLOBAL AI CAREER ASSISTANT
+
+Build a persistent AI assistant accessible from all pages.
+
+It must understand the authenticated student's:
+
+- Profile
+- Resume
+- Skills
+- Projects
+- Certifications
+- Recommended jobs
+- Selected jobs
+- Skill gaps
+- Courses
+- Daily tasks
+- Assessments
+- Learning progress
+- Applications
+
+Example questions:
+
+- What should I learn today?
+- Which jobs are suitable for my profile?
+- Why did you recommend this job?
+- What skills am I missing?
+- Which companies match my preferences?
+- How can I improve my Cloud Support Associate match?
+- Show my unfinished courses.
+- What projects should I build?
+- Am I ready to apply?
+- Help me prepare for an interview.
+- Update my learning plan.
+
+Example workflow:
+
+User: "What should I learn today?"
+
+1. Orchestrator retrieves the user's selected job.
+2. Retrieves the user's skill gaps.
+3. Retrieves learning progress.
+4. Calls Learning Planner Agent.
+5. Produces a specific task with instructions and resources.
+6. Saves the recommendation where appropriate.
+
+Maintain conversation history in Firebase.
+
+Use user-specific context and strict data isolation.
+
+The assistant must not claim it has changed profile data, completed courses, applied for jobs, or submitted assessments unless the corresponding operation actually succeeds.
+
+# 11. APPLICATION TRACKER
+
+Create an application tracking dashboard.
+
+Statuses:
+
+- Interested
+- Preparing
+- Ready to Apply
+- Applied
+- Assessment Scheduled
+- Interview Scheduled
+- Selected
+- Rejected
+- On Hold
+
+Allow students to:
+
+- Save application links.
+- Open the official employer application page.
+- Record application dates.
+- Record deadlines.
+- Add interview dates.
+- Add notes.
+- Update status.
+- Track application history.
+
+Default application behavior should redirect users to the official employer application page.
+
+Only implement in-platform applications where an authorized employer integration explicitly supports them.
+
+Do not claim that CareerPilot submitted an application when it only opened an external URL.
+
+# 12. DASHBOARD DESIGN
+
+The dashboard is the first page after successful login.
+
+Display:
+
+- Welcome message
+- Profile completeness
+- Recommended jobs
+- Selected target jobs
+- Job match overview
+- Today's learning tasks
+- Learning progress
+- Skill proficiency
+- Courses in progress
+- Upcoming deadlines
+- Application status
+- Recent AI recommendations
+
+Use cards, progress bars, charts, tables, and clear status indicators.
+
+Every dashboard value must come from Firebase records or a clearly labeled demonstration dataset.
+
+# 13. FIREBASE DATABASE DESIGN
+
+Use Cloud Firestore.
+
+Design collections and document relationships for:
+
+- users
+- candidate_profiles
+- resumes
+- portfolio_links
+- projects
+- skills
+- credentials
+- jobs
+- job_requirements
+- selected_jobs
+- skill_gaps
+- courses
+- roadmaps
+- learning_tasks
+- task_evidence
+- assessments
+- progress_records
+- applications
+- conversations
+- agent_runs
+- notifications
+- admin_settings
+
+Use user IDs as ownership references.
+
+Use subcollections where appropriate for user-specific data.
+
+Include:
+- Created timestamps
+- Updated timestamps
+- Source information
+- Ownership
+- Status
+- Validation fields
+
+Design Firestore indexes for commonly used queries.
+
+Avoid oversized documents and uncontrolled array growth.
+
+Implement Firestore Security Rules.
+
+Users must only read and modify their own private records.
+
+Administrators must have explicitly authorized access.
+
+Do not trust user-supplied role fields for administrator authorization.
+
+Use Firebase Admin SDK on the backend for trusted operations.
+
+# 14. REPOSITORIES TO CLONE AND STUDY
+
+Use these public GitHub repositories as potential reference implementations.
+
+Do not assume every repository is suitable for direct code integration.
+
+First verify:
+- Repository exists.
+- Repository is public.
+- License permits the intended reuse.
+- README and dependencies.
+- Last update and maintenance.
+- Security and compatibility.
+- Actual features and code quality.
+
+## Required repositories to inspect
+
+1. Google ADK Recipes
+https://github.com/google/adk-recipes
+
+Purpose:
+- Multi-agent patterns
+- Agent orchestration
+- Tools
+- Sessions
+- Memory
+- Agent workflows
+
+2. AIcareer-platform
+https://github.com/nehaaaareddy/AIcareer-platform
+
+Purpose:
+- Resume analysis
+- Skill extraction
+- Career recommendations
+- FastAPI and React reference
+
+3. Job-Portal
+https://github.com/sarikondaKarthik/Job-Portal
+
+Purpose:
+- Job listings
+- Job search
+- Filtering
+- Job dashboard
+- Frontend/backend reference
+
+4. resume-analyser
+https://github.com/Skalith/resume-analyser
+
+Purpose:
+- Resume-to-job comparison
+- Matching logic
+- Resume analysis
+- Job tracking reference
+
+5. Hirit
+https://github.com/prakashinfotech/hirit
+
+Purpose:
+- Job-seeker interface
+- Employer workflows
+- Recruitment dashboard reference
+
+6. Frappe LMS
+https://github.com/frappe/lms
+
+Purpose:
+- Course management
+- Learning progress
+- Learning dashboard reference
+
+## Exact clone location
+
+Clone the repositories into:
+
+careerpilot/
+  external-repos/
+    google-adk-recipes/
+    ai-career-platform/
+    job-portal/
+    resume-analyser/
+    hirit/
+    frappe-lms/
+
+Use these commands:
+
+git clone https://github.com/google/adk-recipes.git external-repos/google-adk-recipes
+
+git clone https://github.com/nehaaaareddy/AIcareer-platform.git external-repos/ai-career-platform
+
+git clone https://github.com/sarikondaKarthik/Job-Portal.git external-repos/job-portal
+
+git clone https://github.com/Skalith/resume-analyser.git external-repos/resume-analyser
+
+git clone https://github.com/prakashinfotech/hirit.git external-repos/hirit
+
+git clone https://github.com/frappe/lms.git external-repos/frappe-lms
+
+If a repository cannot be verified or cloned, report that fact. Do not substitute an unrelated repository without approval.
+
+Keep these repositories separate from our own application.
+
+Study their useful components and selectively integrate compatible code into CareerPilot's own modules.
+
+Do not copy entire applications blindly.
+
+Do not embed multiple independent applications into one production website.
+
+Preserve applicable license and attribution notices.
+
+The CareerPilot source code must remain organized in our own repository.
+
+# 15. PROJECT DIRECTORY STRUCTURE
+
+Create the following project structure:
+
+careerpilot/
+│
+├── frontend/
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       ├── layouts/
+│       ├── pages/
+│       │   ├── Dashboard/
+│       │   ├── Profile/
+│       │   ├── JobIntelligence/
+│       │   ├── LearningOutcomes/
+│       │   ├── Assistant/
+│       │   ├── Applications/
+│       │   └── Settings/
+│       ├── services/
+│       ├── hooks/
+│       ├── contexts/
+│       ├── routes/
+│       ├── types/
+│       └── utils/
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── agents/
+│   │   │   ├── orchestrator.py
+│   │   │   ├── profile_agent.py
+│   │   │   ├── job_agent.py
+│   │   │   ├── skill_gap_agent.py
+│   │   │   ├── learning_agent.py
+│   │   │   └── progress_agent.py
+│   │   ├── services/
+│   │   ├── integrations/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── database/
+│   │   ├── security/
+│   │   └── main.py
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── firebase/
+│   ├── firestore.rules
+│   ├── firestore.indexes.json
+│   └── firebase.json
+│
+├── integrations/
+│   ├── job_sources/
+│   ├── github/
+│   └── courses/
+│
+├── external-repos/
+│
+├── docs/
+│   ├── architecture.md
+│   ├── database-design.md
+│   ├── agent-workflows.md
+│   ├── api-documentation.md
+│   └── setup-guide.md
+│
+├── .gitignore
+└── README.md
+
+# 16. UI/UX DESIGN REQUIREMENTS
+
+Create a modern, professional AI career platform.
+
+Visual direction:
+
+- Clean professional SaaS interface.
+- Modern dashboard.
+- Responsive desktop, tablet, and mobile layouts.
+- Consistent spacing and typography.
+- Rounded cards.
+- Clear information hierarchy.
+- Professional icons.
+- Subtle animations.
+- Accessible color contrast.
+- Clear loading, empty, error, and success states.
+
+Use a consistent design system.
+
+Recommended visual structure:
+
+Sidebar:
+- CareerPilot logo
+- Dashboard
+- Profile
+- Job Intelligence
+- Learning & Outcomes
+- AI Assistant
+- Applications
+- Settings
+
+Top bar:
+- Search
+- Notifications
+- AI assistant shortcut
+- User profile
+
+Dashboard:
+- Welcome panel
+- Profile completion card
+- Job recommendations
+- Selected job cards
+- Learning progress
+- Today's tasks
+- Skill progress charts
+- Application tracker
+
+Do not make the interface excessively crowded.
+
+Make all navigation links, buttons, filters, forms, tabs, and interactions functional.
+
+Do not use decorative buttons that do nothing.
+
+# 17. SECURITY AND DATA QUALITY
+
+Implement:
+
+- Firebase authentication verification
+- Firestore Security Rules
+- Secure file uploads
+- File type and size validation
+- Backend input validation
+- Rate limiting for sensitive APIs
+- API key protection
+- Safe error handling
+- User data isolation
+- Role-based access
+- Audit logging for privileged actions
+
+For AI-generated information:
+
+- Distinguish facts from recommendations.
+- Identify source and freshness for job listings.
+- Never invent vacancies.
+- Never invent course credentials.
+- Never invent user experience.
+- Never invent assessment results.
+- Never claim an unverified skill is mastered.
+
+# 18. API ENDPOINTS
+
+Create working FastAPI endpoints.
+
+Authentication:
+- POST /auth/verify
+
+Profile:
+- GET /profile
+- PUT /profile
+- POST /profile/resume
+- GET /profile/resume
+- POST /profile/github/analyze
+
+Jobs:
+- GET /jobs/recommended
+- GET /jobs/{job_id}
+- POST /jobs/{job_id}/select
+- GET /jobs/selected
+- POST /jobs/{job_id}/analyze
+- GET /jobs/{job_id}/skill-gaps
+
+Learning:
+- POST /learning/roadmap
+- GET /learning/roadmap
+- GET /learning/courses
+- GET /learning/tasks/today
+- POST /learning/tasks/{task_id}/complete
+- POST /learning/evidence
+- POST /learning/assessment
+- GET /learning/outcomes
+
+Applications:
+- GET /applications
+- POST /applications
+- PUT /applications/{application_id}
+
+AI:
+- POST /chat/message
+- GET /chat/history
+
+Admin:
+- POST /admin/jobs
+- PUT /admin/jobs/{job_id}
+- GET /admin/analytics
+
+Protect all user-specific endpoints using Firebase ID token verification.
+
+# 19. COMPLETE FUNCTIONAL WORKFLOW
+
+Implement and test the following demonstration.
+
+Scenario: A new B.Tech student wants to become a Cloud Support Associate.
+
+Step 1:
+Student registers using Google or email/password.
+
+Step 2:
+Student uploads resume.
+
+Step 3:
+Profile Intelligence Agent extracts education, projects, skills, and certifications.
+
+Step 4:
+Student connects GitHub and enters career preferences.
+
+Step 5:
+Job Intelligence Agent retrieves suitable job listings.
+
+Step 6:
+Student sees Recommended Jobs.
+
+Step 7:
+Student selects Cloud Support Associate.
+
+Step 8:
+Skill Gap Agent compares the candidate with the actual job requirements.
+
+Step 9:
+The system identifies matched, partial, missing, and unverified skills.
+
+Step 10:
+Learning Planner creates a personalized roadmap.
+
+Step 11:
+Student starts AWS IAM Fundamentals.
+
+Step 12:
+Student completes a lesson and marks course progress.
+
+Step 13:
+The system recommends a practical IAM assignment.
+
+Step 14:
+Student submits project evidence.
+
+Step 15:
+Progress & Outcomes Agent evaluates the evidence and assessment.
+
+Step 16:
+Firebase stores the updated learning progress and skill evidence.
+
+Step 17:
+Skill Gap Agent recalculates the job match.
+
+Step 18:
+The dashboard reflects updated information.
+
+Step 19:
+The student opens the employer's official application URL.
+
+Step 20:
+The student records the application and tracks its status.
+
+This complete workflow must work across the frontend, backend, agents, and Firebase.
+
+# 20. IMPLEMENTATION AND TESTING REQUIREMENTS
+
+Do not generate only a project plan.
+
+Actually create the application.
+
+Work in phases:
+
+Phase 1: Project setup and design system.
+
+Phase 2: Firebase authentication, Firestore, Storage and security rules.
+
+Phase 3: Candidate profile and resume parser.
+
+Phase 4: Job data integrations and Job Intelligence.
+
+Phase 5: Skill matching and gap analysis.
+
+Phase 6: Learning and Outcomes.
+
+Phase 7: Five AI agents and orchestrator.
+
+Phase 8: Global AI assistant.
+
+Phase 9: Dashboard and application tracker.
+
+Phase 10: Testing, deployment, documentation and final integration.
+
+After every phase:
+
+- Run the application.
+- Check for errors.
+- Fix broken imports.
+- Fix TypeScript errors.
+- Fix backend errors.
+- Test Firebase connectivity.
+- Test API integration.
+- Test user authentication.
+- Test database persistence.
+- Test responsive UI.
+- Test all important workflows.
+
+Do not leave placeholder buttons or fake API integrations.
+
+If external credentials are missing, create a clear configuration guide and a safe integration boundary. Do not pretend the integration works without credentials.
+
+For demonstrations, use clearly labeled sample records. Never present sample jobs as verified live vacancies.
+
+# 21. FINAL DELIVERABLES
+
+Deliver:
+
+1. Complete React frontend.
+2. Complete FastAPI backend.
+3. Firebase Authentication integration.
+4. Firestore database implementation.
+5. Firebase Storage integration.
+6. Firebase Security Rules and indexes.
+7. Gemini integration.
+8. Five functional specialist agents.
+9. Central agent orchestrator.
+10. Working AI Career Assistant.
+11. Resume upload and parsing.
+12. GitHub profile integration.
+13. Job recommendation engine.
+14. Skill matching and gap analysis.
+15. Personalized learning roadmap.
+16. Course and daily task tracking.
+17. Practical projects and assessments.
+18. Application tracking.
+19. Responsive dashboard.
+20. API documentation.
+21. Firebase setup instructions.
+22. Environment variable example file.
+23. README with installation and deployment instructions.
+24. Test cases and test results.
+25. Deployment configuration.
+
+# 22. MOST IMPORTANT DEVELOPMENT INSTRUCTIONS
+
+- Preserve the entire CareerPilot vision.
+- Do not remove any major module.
+- Do not replace Firebase with another database.
+- Do not replace Firebase Authentication.
+- Do not create a frontend-only demo.
+- Do not hardcode user data.
+- Do not hardcode fake live vacancies.
+- Do not claim external APIs work without testing them.
+- Do not expose API keys.
+- Do not duplicate agent responsibilities.
+- Do not create multiple disconnected applications.
+- Do not allow one student's private information to be accessible to another student.
+- Do not mark courses completed without an actual recorded action.
+- Do not mark skills verified without sufficient evidence.
+- Do not automatically apply for jobs without explicit authorization.
+- Do not stop after generating the landing page.
+
+Build CareerPilot as one unified, fully integrated application.
+
+Before implementation, inspect the available project directory and existing code. Preserve useful working code and avoid overwriting existing files unnecessarily.
+
+If a requirement cannot be implemented because of missing credentials, external service limitations, or repository restrictions, explain the exact blocker and implement the rest without pretending that the blocked feature works.
+
+Start by producing the architecture and repository integration plan, then implement the actual application phase by phase. Continue testing and fixing issues until the complete available workflow works.

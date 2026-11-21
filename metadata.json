@@ -1,0 +1,11 @@
+{
+  "name": "Chokma",
+  "description": "Chokma — Modern minimalist AI career development, job intelligence, and learning workspace.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,344 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Candidate profile, academic details, external links, career preferences, and parsed resume summaries.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "displayName": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "college": { "type": "string", "maxLength": 160 },
+        "university": { "type": "string", "maxLength": 160 },
+        "degree": { "type": "string", "maxLength": 120 },
+        "department": { "type": "string", "maxLength": 120 },
+        "graduationYear": { "type": "string", "maxLength": 16 },
+        "cgpa": { "type": "string", "maxLength": 32 },
+        "currentAcademicYear": { "type": "string", "maxLength": 40 },
+        "location": { "type": "string", "maxLength": 120 },
+        "careerObjective": { "type": "string", "maxLength": 1200 },
+        "role": { "type": "string", "enum": ["student", "admin", "employer"] },
+        "portfolioUrl": { "type": "string", "maxLength": 300 },
+        "linkedinUrl": { "type": "string", "maxLength": 300 },
+        "githubUsername": { "type": "string", "maxLength": 100 },
+        "credlyUrl": { "type": "string", "maxLength": 300 },
+        "leetcodeUrl": { "type": "string", "maxLength": 300 },
+        "hackerrankUrl": { "type": "string", "maxLength": 300 },
+        "githubAnalysis": { "type": "object" },
+        "preferences": { "type": "object" },
+        "education": { "type": "array" },
+        "experience": { "type": "array" },
+        "projects": { "type": "array" },
+        "certifications": { "type": "array" },
+        "resumes": { "type": "array" },
+        "profileCompleteness": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "role", "profileCompleteness", "createdAt", "updatedAt"]
+    },
+    "CandidateSkill": {
+      "title": "CandidateSkill",
+      "description": "Individual candidate skill with proficiency level and evidence verification status.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "category": { "type": "string", "maxLength": 60 },
+        "proficiencyLevel": { "type": "number" },
+        "evidenceSource": { "type": "string", "enum": ["claimed", "resume", "github", "course", "project", "assessment"] },
+        "verificationStatus": { "type": "string", "enum": ["claimed", "evidence_supported", "assessment_verified"] },
+        "evidenceNotes": { "type": "string", "maxLength": 600 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "category", "proficiencyLevel", "evidenceSource", "verificationStatus", "createdAt", "updatedAt"]
+    },
+    "JobListing": {
+      "title": "JobListing",
+      "description": "Job listing from verified or sample curated sources.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 140 },
+        "company": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 120 },
+        "jobType": { "type": "string", "enum": ["Full-time", "Internship"] },
+        "workMode": { "type": "string", "enum": ["Remote", "Hybrid", "On-site"] },
+        "experienceLevel": { "type": "string", "maxLength": 60 },
+        "salaryRange": { "type": "string", "maxLength": 80 },
+        "description": { "type": "string", "maxLength": 4000 },
+        "responsibilities": { "type": "array" },
+        "qualifications": { "type": "array" },
+        "requiredSkills": { "type": "array" },
+        "preferredSkills": { "type": "array" },
+        "officialUrl": { "type": "string", "maxLength": 400 },
+        "source": { "type": "string", "maxLength": 120 },
+        "isSampleListing": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["active", "expired"] },
+        "postedDate": { "type": "string", "maxLength": 40 },
+        "deadline": { "type": "string", "maxLength": 40 },
+        "lastVerifiedDate": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "company", "location", "jobType", "workMode", "status", "officialUrl", "source", "isSampleListing", "createdAt", "updatedAt"]
+    },
+    "SelectedJob": {
+      "title": "SelectedJob",
+      "description": "A target job selected by a student with independent gap analysis and roadmap tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "jobId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "jobTitle": { "type": "string", "maxLength": 140 },
+        "company": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 120 },
+        "jobType": { "type": "string", "maxLength": 40 },
+        "workMode": { "type": "string", "maxLength": 40 },
+        "officialUrl": { "type": "string", "maxLength": 400 },
+        "matchScore": { "type": "number" },
+        "eligibilityPassed": { "type": "boolean" },
+        "matchedSkills": { "type": "array" },
+        "partialSkills": { "type": "array" },
+        "missingSkills": { "type": "array" },
+        "unverifiedSkills": { "type": "array" },
+        "learningProgress": { "type": "number" },
+        "applicationStatus": { "type": "string", "maxLength": 40 },
+        "roadmapSummary": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "jobId", "jobTitle", "company", "matchScore", "eligibilityPassed", "learningProgress", "applicationStatus", "createdAt", "updatedAt"]
+    },
+    "RoadmapItem": {
+      "title": "RoadmapItem",
+      "description": "Personalized learning milestone generated from skill gaps.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "selectedJobId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 160 },
+        "skillCategory": { "type": "string", "maxLength": 80 },
+        "targetSkill": { "type": "string", "maxLength": 80 },
+        "priority": { "type": "string", "enum": ["high", "medium", "low"] },
+        "durationHours": { "type": "number" },
+        "phaseOrder": { "type": "number" },
+        "status": { "type": "string", "enum": ["not_started", "in_progress", "completed"] },
+        "description": { "type": "string", "maxLength": 800 },
+        "expectedOutcome": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "selectedJobId", "title", "targetSkill", "priority", "durationHours", "phaseOrder", "status", "createdAt", "updatedAt"]
+    },
+    "CourseRecord": {
+      "title": "CourseRecord",
+      "description": "Recommended or active learning course linked to target skill gaps.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "selectedJobId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 180 },
+        "provider": { "type": "string", "maxLength": 80 },
+        "officialUrl": { "type": "string", "maxLength": 400 },
+        "targetSkill": { "type": "string", "maxLength": 80 },
+        "difficulty": { "type": "string", "enum": ["Beginner", "Intermediate", "Advanced"] },
+        "durationLabel": { "type": "string", "maxLength": 40 },
+        "pricingType": { "type": "string", "enum": ["Free", "Paid", "Free Trial"] },
+        "status": { "type": "string", "enum": ["not_started", "in_progress", "completed", "assessment_pending", "verified"] },
+        "progressPercent": { "type": "number" },
+        "certificateUrl": { "type": "string", "maxLength": 400 },
+        "evidenceNotes": { "type": "string", "maxLength": 800 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "selectedJobId", "title", "provider", "officialUrl", "targetSkill", "difficulty", "pricingType", "status", "progressPercent", "createdAt", "updatedAt"]
+    },
+    "DailyTask": {
+      "title": "DailyTask",
+      "description": "Actionable daily learning task tied to a target skill.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "selectedJobId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 180 },
+        "description": { "type": "string", "maxLength": 800 },
+        "targetSkill": { "type": "string", "maxLength": 80 },
+        "estimatedMinutes": { "type": "number" },
+        "priority": { "type": "string", "enum": ["high", "medium", "low"] },
+        "instructions": { "type": "string", "maxLength": 1500 },
+        "resourceUrl": { "type": "string", "maxLength": 400 },
+        "status": { "type": "string", "enum": ["pending", "in_progress", "completed"] },
+        "evidenceNotes": { "type": "string", "maxLength": 800 },
+        "evidenceUrl": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "selectedJobId", "title", "targetSkill", "estimatedMinutes", "priority", "status", "createdAt", "updatedAt"]
+    },
+    "PracticalProject": {
+      "title": "PracticalProject",
+      "description": "Hands-on portfolio project aligned to target job requirements.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "selectedJobId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 180 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "targetSkills": { "type": "array" },
+        "requirements": { "type": "array" },
+        "instructions": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["not_started", "in_progress", "submitted", "reviewed"] },
+        "githubRepoUrl": { "type": "string", "maxLength": 400 },
+        "evidenceNotes": { "type": "string", "maxLength": 1200 },
+        "aiReviewFeedback": { "type": "string", "maxLength": 2000 },
+        "aiReviewScore": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "selectedJobId", "title", "description", "status", "createdAt", "updatedAt"]
+    },
+    "AssessmentAttempt": {
+      "title": "AssessmentAttempt",
+      "description": "Completed skill verification assessment record (immutable once completed).",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "selectedJobId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "targetSkill": { "type": "string", "maxLength": 80 },
+        "title": { "type": "string", "maxLength": 180 },
+        "questionsCount": { "type": "number" },
+        "scorePercent": { "type": "number" },
+        "passed": { "type": "boolean" },
+        "explanationsSummary": { "type": "string", "maxLength": 1500 },
+        "status": { "type": "string", "enum": ["completed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "selectedJobId", "targetSkill", "title", "questionsCount", "scorePercent", "passed", "status", "createdAt"]
+    },
+    "JobApplication": {
+      "title": "JobApplication",
+      "description": "Student job application tracking entry with official employer link and status pipeline.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "jobId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "jobTitle": { "type": "string", "maxLength": 140 },
+        "company": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 120 },
+        "officialUrl": { "type": "string", "maxLength": 400 },
+        "status": {
+          "type": "string",
+          "enum": ["Interested", "Preparing", "Ready to Apply", "Applied", "Assessment Scheduled", "Interview Scheduled", "Selected", "Rejected", "On Hold"]
+        },
+        "dateApplied": { "type": "string", "maxLength": 40 },
+        "deadline": { "type": "string", "maxLength": 40 },
+        "interviewDate": { "type": "string", "maxLength": 40 },
+        "nextAction": { "type": "string", "maxLength": 240 },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "jobId", "jobTitle", "company", "officialUrl", "status", "createdAt", "updatedAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "AI Career Assistant conversation session.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 140 },
+        "lastMessagePreview": { "type": "string", "maxLength": 500 },
+        "activeAgent": { "type": "string", "maxLength": 80 },
+        "messageCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "messageCount", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Individual chat message in an AI Career Assistant conversation.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "conversationId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "role": { "type": "string", "enum": ["user", "assistant"] },
+        "content": { "type": "string", "maxLength": 16000 },
+        "agentUsed": { "type": "string", "maxLength": 80 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "conversationId", "role", "content", "createdAt"]
+    },
+    "AdminSettings": {
+      "title": "AdminSettings",
+      "description": "Configurable explainable job matching weights.",
+      "type": "object",
+      "properties": {
+        "technicalSkillsWeight": { "type": "number" },
+        "projectRelevanceWeight": { "type": "number" },
+        "educationWeight": { "type": "number" },
+        "experienceWeight": { "type": "number" },
+        "certificationsWeight": { "type": "number" },
+        "updatedBy": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["technicalSkillsWeight", "projectRelevanceWeight", "educationWeight", "experienceWeight", "certificationsWeight", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private candidate profile document isolated to owner or verified admin."
+    },
+    "/users/{userId}/skills/{skillId}": {
+      "schema": { "$ref": "#/entities/CandidateSkill" },
+      "description": "Candidate skills with proficiency and evidence verification status."
+    },
+    "/users/{userId}/selected_jobs/{selectedJobId}": {
+      "schema": { "$ref": "#/entities/SelectedJob" },
+      "description": "Target jobs selected by the student."
+    },
+    "/users/{userId}/roadmap_items/{itemId}": {
+      "schema": { "$ref": "#/entities/RoadmapItem" },
+      "description": "Personalized learning roadmap items."
+    },
+    "/users/{userId}/courses/{courseId}": {
+      "schema": { "$ref": "#/entities/CourseRecord" },
+      "description": "Recommended and tracked learning courses."
+    },
+    "/users/{userId}/daily_tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/DailyTask" },
+      "description": "Daily learning tasks generated from skill gaps."
+    },
+    "/users/{userId}/practical_projects/{projectId}": {
+      "schema": { "$ref": "#/entities/PracticalProject" },
+      "description": "Hands-on portfolio projects with evidence submission and AI review."
+    },
+    "/users/{userId}/assessments/{assessmentId}": {
+      "schema": { "$ref": "#/entities/AssessmentAttempt" },
+      "description": "Completed skill verification assessments."
+    },
+    "/users/{userId}/applications/{applicationId}": {
+      "schema": { "$ref": "#/entities/JobApplication" },
+      "description": "Student job application tracker entries."
+    },
+    "/users/{userId}/conversations/{conversationId}": {
+      "schema": { "$ref": "#/entities/Conversation" },
+      "description": "AI Career Assistant conversations."
+    },
+    "/users/{userId}/conversations/{conversationId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Messages inside an AI Career Assistant conversation."
+    },
+    "/jobs/{jobId}": {
+      "schema": { "$ref": "#/entities/JobListing" },
+      "description": "Curated and verified job listings."
+    },
+    "/admin_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/AdminSettings" },
+      "description": "Global matching engine scoring weights."
+    }
+  }
+}
